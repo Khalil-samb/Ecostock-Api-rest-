@@ -24,6 +24,9 @@ class Product(models.Model):
     """
 
     class Status(models.TextChoices):
+        """
+        cette fonction permet de créer un choix de statut pour le produit
+        """
         AVAILABLE = "disponible", "Disponible"
         RESERVED = "reserve", "Réservé"
         EXPIRED = "perime", "Périmé"
@@ -53,6 +56,8 @@ class Product(models.Model):
         return self.expiration_date < timezone.now().date()
 
     def save(self, *args, **kwargs):
+        #save est appelé à chaque fois qu'on fait un .save() sur un objet Product 
+        # *args et **kwargs permettent de passer des arguments supplémentaires à la méthode save() de la classe parente
         # Auto-synchronisation du statut si la date est dépassée
         if self.is_expired:
             self.status = self.Status.EXPIRED
